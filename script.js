@@ -33,3 +33,25 @@ function operate(num1, num2, operator){
     };
 };
 
+const calculatorCase = document.querySelector('.digits');
+function createButtons() {
+    for (let i=9; i>= 0; i--) {
+        let button = document.createElement('button');
+        button.className = 'item';
+        button.textContent = `${i}`;
+        calculatorCase.appendChild(button);
+    }
+};
+createButtons();
+
+const buttons = document.querySelectorAll('.item');
+buttons.forEach((item) => {
+    item.addEventListener('click', populateDisplay);
+})
+
+const display = document.querySelector('.display-values');
+function populateDisplay() {
+    display.textContent += '5';
+}
+
+//find a way how to populate the display with the exact button I press (e.g. if I press "1", then the display should be populated with "1");

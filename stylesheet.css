@@ -28,7 +28,7 @@ body {
     border-bottom: 5px solid purple;
 }
 
-.dummy-one {
+.display-values {
     width: auto;
     height: 50px;
     background: white;
@@ -63,8 +63,33 @@ body {
     font-size: 1rem;
 }
 
+.item:hover{
+    background-color: skyblue;
+}
+
 .equals-key {
     grid-column: 2/4;
+    grid-row: 6/7;
+}
+
+.plus {
+    grid-column: 2/3;
+    grid-row: 4/5;
+}
+
+.minus {
+    grid-column: 3/4;
+    grid-row: 4/5;
+}
+
+.multiplication {
+    grid-column: 2/3;
+    grid-row: 5/6;
+}
+
+.division {
+    grid-column: 3/4;
+    grid-row: 5/6;
 }
 
 .clear-key {
