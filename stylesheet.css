@@ -11,40 +11,67 @@ body {
 }
 
 #calculator-case {
-    height: 400px;
-    width:  200px;
+    height: 420px;
+    width:  300px;
     margin: auto;
+    /* margin-top:50px; */
     border: 5px solid purple;
     display: flex;
     flex-direction: column;
-    /* border-radius: 15px; */
+    border-radius: 10px;
 }
 
 .display {
     height:100px;
-    width:190px;
-    background-color: blue;
-    border-bottom: 5px solid black;
+    width:auto;
+    background-color: black;
+    border-bottom: 5px solid purple;
+}
+
+.dummy-one {
+    width: auto;
+    height: 50px;
+    background: white;
+    border-radius: 10px;
+    margin: 20px;
+    padding:5px;
+    font-size: 2rem;
+    text-align: right;
 }
 
 .buttons {
     background-color: grey;
-    height: 300px;
-    width: 190px;
+    height: 320px;
+    width: auto;
+    padding:10px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .digits {
-    display:grid;
+    display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-
+    grid-template-rows: repeat(6, 40px);
+    row-gap: 10px;
+    column-gap: 10px;
 }
 
-
-
 .item{
-    width: 50px;
-    height: 50px;
     border: 3px solid black;
     border-radius: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.equals-key {
+    grid-column: 2/4;
+}
+
+.clear-key {
+    grid-column: 1/2;
+    grid-row: 5/7;
+    background-color: yellow;
+    font-size: 3rem;
+    font-weight: bold;
+    color: red;
 }
