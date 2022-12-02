@@ -37,7 +37,14 @@ body {
     padding:5px;
     font-size: 2rem;
     text-align: right;
+    /* overflow: scroll; */
 }
+
+/*.display-values::-webkit-scrollbar {
+    display: none;
+}
+
+to simply limit the input to the edges of the display*/
 
 .buttons {
     background-color: grey;
