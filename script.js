@@ -14,49 +14,97 @@ function divide(a,b) {
 
 function operate(num1, num2, operator){
     if(operator == '+') {
-        return result = add(num1, num2);
+        result = add(num1, num2);
+        display.textContent = result;
+        return result;
     }
 
     if(operator == '-') {
-        return result = subtract(num1, num2);
+        result = subtract(num1, num2);
+        display.textContent = result;
+        return result;
     }
 
     if(operator == '*') {
-        return result = multiply(num1, num2);
+        result = multiply(num1, num2);
+        display.textContent = result;
+        return result;
     }
 
     if(operator == '/') {
-        return result = divide(num1, num2);
+        result = divide(num1, num2);
+        display.textContent = result;
+        return result;
     };
 };
 
-//make the calculator work!
+//connect calculator keys to their values
 const divisionKey = document.querySelector('.division');
 const multiplicationKey = document.querySelector('.multiplication');
 const plusKey = document.querySelector('.plus');
 const minusKey = document.querySelector('.minus');
+const equalsKey = document.querySelector('.equals-key');
 
 plusKey.addEventListener('click', () => {
-    display.textContent += plusKey.value;
-    saveFirstNumber(); //test
-    return '+';
+    operator = '+';
+    saveFirstNumber();
+    // display.textContent += plusKey.value;
 });
 minusKey.addEventListener('click', () => {
-    display.textContent += minusKey.value;
+    operator = '-';
+    saveFirstNumber();
+    // display.textContent += minusKey.value;
 });
 divisionKey.addEventListener('click', () => {
-    display.textContent += divisionKey.value;
+    operator = '/';
+    saveFirstNumber();
+    // display.textContent += divisionKey.value;
 });
 multiplicationKey.addEventListener('click', () => {
-    display.textContent += multiplicationKey.value;
+    operator = '*';
+    saveFirstNumber();
+    // display.textContent += multiplicationKey.value;
+});
+equalsKey.addEventListener('click', () => {
+    num2 = currentValue;
+    operate(num1, num2, operator);
+
+    console.log('num2 has been saved...');
+    console.log(`result is: ${result}`);
+
+    isResult = true;
+
 });
 
-//save the fist number + chosen operator? 
+//enable further calculation with result 
+let isResult = false;
+let result = 0;
+
+//save the fist number + chosen operator?
 let num1;
 let num2;
+let operator;
 function saveFirstNumber() {
-    num1 = currentValue;
-}
+
+    if (isResult){
+        num1 = result;
+        console.log('num1 has been saved...')
+    } else {
+        num1 = currentValue;
+        console.log('num1 has been saved...')
+    };
+    display.textContent = '';
+
+    if (operator === "+") {
+        console.log("add");
+    } else if (operator === '-') {
+        console.log('subtract');
+    } else if (operator === '/') {
+        console.log('division');
+    } else if (operator === '*') {
+        console.log('multiplication');
+    };
+};
 
 
 const calculatorCase = document.querySelector('.digits');
@@ -79,12 +127,18 @@ let currentValue = 0;
 buttons.forEach((item) => {
     item.addEventListener('click', (e) => {
         display.textContent += `${e.target.value}`;
-        currentValue = display.textContent;
+        currentValue = +display.textContent;
     });
 })
 
 clearKey.addEventListener('click', () => {
     display.textContent = '';
     currentValue = 0;
+    num1 = 0;
+    num2 = 0;
+    result = 0;
+    isResult = false;
+    console.log('data has been cleared...');
+    //find a way how to erase data more sufficiently;
 });
 
