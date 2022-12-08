@@ -67,36 +67,43 @@ to simply limit the input to the edges of the display*/
     border: 3px solid black;
     border-radius: 10px;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 1.5rem;
+    font-style: italic;
 }
 
 .item:hover{
     background-color: skyblue;
+    color:red;
 }
 
 .equals-key {
     grid-column: 2/4;
     grid-row: 6/7;
+    background-color: red;
 }
 
 .plus {
     grid-column: 2/3;
     grid-row: 4/5;
+    background-color: purple;
 }
 
 .minus {
     grid-column: 3/4;
     grid-row: 4/5;
+    background-color: purple;
 }
 
 .multiplication {
     grid-column: 2/3;
     grid-row: 5/6;
+    background-color: purple;
 }
 
 .division {
     grid-column: 3/4;
     grid-row: 5/6;
+    background-color: purple;
 }
 
 .clear-key {

@@ -142,3 +142,8 @@ clearKey.addEventListener('click', () => {
     //find a way how to erase data more sufficiently;
 });
 
+/*
+    - when start typing the second number, remove an operator from the display;
+    - alternatively make a new window displaying which operator is currently being used;
+*/
+
