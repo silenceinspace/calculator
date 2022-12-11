@@ -114,3 +114,7 @@ to simply limit the input to the edges of the display*/
     font-weight: bold;
     color: red;
 }
+
+.active {
+    background-color:skyblue;
+}

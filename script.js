@@ -16,26 +16,23 @@ function operate(num1, num2, operator){
     if(operator == '+') {
         result = add(num1, num2);
         display.textContent = result;
-        return result;
     }
 
     if(operator == '-') {
         result = subtract(num1, num2);
         display.textContent = result;
-        return result;
     }
 
     if(operator == '*') {
         result = multiply(num1, num2);
         display.textContent = result;
-        return result;
     }
 
     if(operator == '/') {
         result = divide(num1, num2);
         display.textContent = result;
-        return result;
     };
+    // return result;
 };
 
 //connect calculator keys to their values
@@ -46,32 +43,50 @@ const minusKey = document.querySelector('.minus');
 const equalsKey = document.querySelector('.equals-key');
 
 plusKey.addEventListener('click', () => {
+
+    // if (num1 == result || num1 == currentValue) {
+    //     plusKey.classList.remove('active');
+    //     num2 = currentValue;
+    //     operate(num1, num2, operator);
+    //     isResult = true;
+    // }
+
     operator = '+';
+    highlightOperator(plusKey);
     saveFirstNumber();
-    // display.textContent += plusKey.value;
+
 });
+
 minusKey.addEventListener('click', () => {
     operator = '-';
+    highlightOperator(minusKey);
     saveFirstNumber();
-    // display.textContent += minusKey.value;
 });
+
 divisionKey.addEventListener('click', () => {
     operator = '/';
+    highlightOperator(divisionKey);
     saveFirstNumber();
-    // display.textContent += divisionKey.value;
 });
+
 multiplicationKey.addEventListener('click', () => {
     operator = '*';
+    highlightOperator(multiplicationKey);
     saveFirstNumber();
-    // display.textContent += multiplicationKey.value;
 });
+
+function highlightOperator(param) {
+    param.classList.add('active');
+}
+
 equalsKey.addEventListener('click', () => {
+    plusKey.classList.remove('active');
+    minusKey.classList.remove('active');
+    divisionKey.classList.remove('active');
+    multiplicationKey.classList.remove('active');
+
     num2 = currentValue;
     operate(num1, num2, operator);
-
-    console.log('num2 has been saved...');
-    console.log(`result is: ${result}`);
-
     isResult = true;
 
 });
@@ -88,24 +103,12 @@ function saveFirstNumber() {
 
     if (isResult){
         num1 = result;
-        console.log('num1 has been saved...')
     } else {
         num1 = currentValue;
-        console.log('num1 has been saved...')
     };
     display.textContent = '';
 
-    if (operator === "+") {
-        console.log("add");
-    } else if (operator === '-') {
-        console.log('subtract');
-    } else if (operator === '/') {
-        console.log('division');
-    } else if (operator === '*') {
-        console.log('multiplication');
-    };
 };
-
 
 const calculatorCase = document.querySelector('.digits');
 (function createButtons() {
@@ -143,7 +146,6 @@ clearKey.addEventListener('click', () => {
 });
 
 /*
-    - when start typing the second number, remove an operator from the display;
-    - alternatively make a new window displaying which operator is currently being used;
+1. How can I optimize the code with objects/arrays, to avoid repetition
+2. instead of hover effect, add a fade-out highlighting element 
 */
-
