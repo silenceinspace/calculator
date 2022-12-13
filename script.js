@@ -1,4 +1,16 @@
-//function expression vs function declaration??;
+// generate digits for buttons instead of writing them manually in HTML
+const calculatorCase = document.querySelector('.digits');
+(function createButtons() {
+    for (let i=9; i>= 0; i--) {
+        let button = document.createElement('button');
+        button.className = 'item number';
+        button.textContent = `${i}`;
+        button.value = `${i}`;
+        calculatorCase.appendChild(button);
+    }
+}()); //immediate function was used here!!!
+
+//functions for calculation 
 function add(a,b) {
     return a+b;
 };
@@ -32,120 +44,188 @@ function operate(num1, num2, operator){
         result = divide(num1, num2);
         display.textContent = result;
     };
-    // return result;
 };
 
-//connect calculator keys to their values
+//DOM - 4 operators and equals key
 const divisionKey = document.querySelector('.division');
 const multiplicationKey = document.querySelector('.multiplication');
 const plusKey = document.querySelector('.plus');
 const minusKey = document.querySelector('.minus');
 const equalsKey = document.querySelector('.equals-key');
 
+let operatorIsPressed = false; //keep track of whether or not an operator has been pressed. If yes, then add to it the functionality of an equals key.
+
+let num2;
+let operator;
+function operatorCanEqual() {
+        num2 = +currentValue;
+        operate(num1, num2, operator);
+        isResult = true;
+        operatorIsPressed = false;
+        removeActiveClass();
+}; 
+
+//functionality of 4 operators + equals key
 plusKey.addEventListener('click', () => {
 
-    // if (num1 == result || num1 == currentValue) {
-    //     plusKey.classList.remove('active');
-    //     num2 = currentValue;
-    //     operate(num1, num2, operator);
-    //     isResult = true;
-    // }
+    if (operatorIsPressed) {
+        if (operator == '+') {
+            operatorCanEqual();
+        } else {
+            operatorCanEqual();
 
-    operator = '+';
-    highlightOperator(plusKey);
-    saveFirstNumber();
+            operator = '+';
+            highlightOperator(plusKey);
+            saveFirstNumber();
+            operatorIsPressed = true;
+        };
 
+    } else {
+        operator = '+';
+        highlightOperator(plusKey);
+        saveFirstNumber();
+        operatorIsPressed = true;
+    };
 });
+
+//separate for now
 
 minusKey.addEventListener('click', () => {
-    operator = '-';
-    highlightOperator(minusKey);
-    saveFirstNumber();
+
+    if (operatorIsPressed) {
+        if (operator == '-') {
+            operatorCanEqual();
+        } else {
+            operatorCanEqual();
+
+            operator = '-';
+            highlightOperator(minusKey);
+            saveFirstNumber();
+            operatorIsPressed = true;
+        };
+
+    } else {
+        operator = '-';
+        highlightOperator(minusKey);
+        saveFirstNumber();
+        operatorIsPressed = true;
+    };
 });
+
+//separate for now
 
 divisionKey.addEventListener('click', () => {
-    operator = '/';
-    highlightOperator(divisionKey);
-    saveFirstNumber();
+
+    if (operatorIsPressed) {
+        if (operator == '/') {
+            operatorCanEqual();
+        } else {
+            operatorCanEqual();
+
+            operator = '/';
+            highlightOperator(divisionKey);
+            saveFirstNumber();
+            operatorIsPressed = true;
+        };
+
+    } else {
+        operator = '/';
+        highlightOperator(divisionKey);
+        saveFirstNumber();
+        operatorIsPressed = true;
+    };
 });
+
+//separate for now
 
 multiplicationKey.addEventListener('click', () => {
-    operator = '*';
-    highlightOperator(multiplicationKey);
-    saveFirstNumber();
+
+    if (operatorIsPressed) {
+        if (operator == '*') {
+            operatorCanEqual();
+        } else {
+            operatorCanEqual();
+
+            operator = '*';
+            highlightOperator(multiplicationKey);
+            saveFirstNumber();
+            operatorIsPressed = true;
+        };
+
+    } else {
+        operator = '*';
+        highlightOperator(multiplicationKey);
+        saveFirstNumber();
+        operatorIsPressed = true;
+    };
 });
 
+equalsKey.addEventListener('click', () => {
+    operatorCanEqual();
+    removeActiveClass();
+});
+
+// add or remove class to show which operator is being used 
 function highlightOperator(param) {
     param.classList.add('active');
 }
 
-equalsKey.addEventListener('click', () => {
+function removeActiveClass() {
     plusKey.classList.remove('active');
     minusKey.classList.remove('active');
     divisionKey.classList.remove('active');
     multiplicationKey.classList.remove('active');
-
-    num2 = currentValue;
-    operate(num1, num2, operator);
-    isResult = true;
-
-});
+}
 
 //enable further calculation with result 
 let isResult = false;
 let result = 0;
 
-//save the fist number + chosen operator?
+//save the fist number
 let num1;
-let num2;
-let operator;
 function saveFirstNumber() {
 
     if (isResult){
         num1 = result;
     } else {
-        num1 = currentValue;
+        num1 = +currentValue;
     };
     display.textContent = '';
+    currentValue = '';
 
 };
 
-const calculatorCase = document.querySelector('.digits');
-(function createButtons() {
-    for (let i=9; i>= 0; i--) {
-        let button = document.createElement('button');
-        button.className = 'item number';
-        button.textContent = `${i}`;
-        button.value = `${i}`;
-        calculatorCase.appendChild(button);
-    }
-}()); //immediate function
-
+// DOM - digits, display, clearKey
 const buttons = document.querySelectorAll('.number');
 const display = document.querySelector('.display-values');
 const clearKey = document.querySelector('.clear-key');
 
-// let valueInTheDisplay
-let currentValue = 0;
+// populate the display and store a value
+let currentValue = '';
 buttons.forEach((item) => {
     item.addEventListener('click', (e) => {
         display.textContent += `${e.target.value}`;
-        currentValue = +display.textContent;
+        currentValue += item.value;
     });
-})
+});
 
+// wipe out all data 
 clearKey.addEventListener('click', () => {
+    removeActiveClass();
     display.textContent = '';
-    currentValue = 0;
+    currentValue = '';
+
     num1 = 0;
     num2 = 0;
     result = 0;
+
     isResult = false;
+    operatorIsPressed = false;
     console.log('data has been cleared...');
-    //find a way how to erase data more sufficiently;
 });
 
 /*
-1. How can I optimize the code with objects/arrays, to avoid repetition
-2. instead of hover effect, add a fade-out highlighting element 
+1. Instead of hover effect, add a fade-out highlighting element
+2. While doing multiple calculations, try to show the in-between result somewhere
+3. If there's some result on the screen (number) and no operator is chosen, then try to prevent unexpected behavior. Probably the keyboard functionality will help with it
 */
