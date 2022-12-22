@@ -72,8 +72,12 @@ to simply limit the input to the edges of the display*/
 }
 
 .item:hover{
+    cursor:pointer;
+}
+
+.item:active {
+    /* transform: translateY(4px); */
     background-color: skyblue;
-    color:red;
 }
 
 .equals-key {

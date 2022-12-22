@@ -186,7 +186,7 @@ let num1;
 function saveFirstNumber() {
 
     if (isResult){
-        num1 = result;
+        num1 = +result;
     } else {
         num1 = +currentValue;
     };
@@ -204,8 +204,16 @@ const clearKey = document.querySelector('.clear-key');
 let currentValue = '';
 buttons.forEach((item) => {
     item.addEventListener('click', (e) => {
+
+        if (!operatorIsPressed && result !== 0) {
+            display.textContent += `${e.target.value}`;
+            result += item.value;
+            //if there's some number on the screen (result), then keep adding to it to make one number;
+            //don't depend on null only
+        } else {
         display.textContent += `${e.target.value}`;
         currentValue += item.value;
+        };
     });
 });
 
@@ -225,7 +233,19 @@ clearKey.addEventListener('click', () => {
 });
 
 /*
-1. Instead of hover effect, add a fade-out highlighting element
-2. While doing multiple calculations, try to show the in-between result somewhere
-3. If there's some result on the screen (number) and no operator is chosen, then try to prevent unexpected behavior. Probably the keyboard functionality will help with it
+
+1. While doing multiple calculations, try to show the in-between result somewhere
+
+2. To round big decimals with Math.round() but if there are 3,4 numbers after a period then just leave them as they are1
+
+3. Pressing = before entering anything causes problems, fix it
+
+4. Display an error message if the user tries to divide by 0
+
+5. Add a "." button for inputting decimals. But limit it to only one
+
+6. Add a "backspace" button so the user can undo if they click the wrong number
+
+7. Add keyboard support!
+
 */
