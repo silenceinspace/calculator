@@ -27,22 +27,22 @@ function divide(a,b) {
 function operate(num1, num2, operator){
     if(operator == '+') {
         result = add(num1, num2);
-        display.textContent = result;
+        display.textContent = parseFloat(result.toFixed(3));
     }
 
     if(operator == '-') {
         result = subtract(num1, num2);
-        display.textContent = result;
+        display.textContent = parseFloat(result.toFixed(3));
     }
 
     if(operator == '*') {
         result = multiply(num1, num2);
-        display.textContent = result;
+        display.textContent = parseFloat(result.toFixed(3));
     }
 
     if(operator == '/') {
         result = divide(num1, num2);
-        display.textContent = result;
+        display.textContent = parseFloat(result.toFixed(3));
     };
 };
 
@@ -63,6 +63,7 @@ function operatorCanEqual() {
         isResult = true;
         operatorIsPressed = false;
         removeActiveClass();
+        decimalIsUsed = false;
 }; 
 
 //functionality of 4 operators + equals key
@@ -192,6 +193,7 @@ function saveFirstNumber() {
     };
     display.textContent = '';
     currentValue = '';
+    decimalIsUsed = false;
 
 };
 
@@ -229,23 +231,47 @@ clearKey.addEventListener('click', () => {
 
     isResult = false;
     operatorIsPressed = false;
+    decimalIsUsed = false;
     console.log('data has been cleared...');
 });
+
+// allow one decimal 
+let decimalIsUsed = false;
+const period = document.querySelector('.period');
+period.addEventListener('click', (e) => {
+
+    if (!decimalIsUsed) {
+        if (!operatorIsPressed && result !== 0) {
+            display.textContent += `${e.target.value}`;
+            result += '.';
+            decimalIsUsed = true;
+        } else {
+            display.textContent += `${e.target.value}`;
+            currentValue += '.';
+            decimalIsUsed = true;
+        }
+    } else {
+        e.preventDefault(); //if decimalIsUsed == true then prevent clicking the button
+    };
+});
+
+const backspace = document.querySelector('.backspace');
+backspace.addEventListener('click', () => {
+    console.log('backspace has been pressed');
+});
+
+
 
 /*
 
 1. While doing multiple calculations, try to show the in-between result somewhere
 
-2. To round big decimals with Math.round() but if there are 3,4 numbers after a period then just leave them as they are1
+2. Pressing = before entering anything causes problems, fix it
 
-3. Pressing = before entering anything causes problems, fix it
+3. Display an error message if the user tries to divide by 0
 
-4. Display an error message if the user tries to divide by 0
+4. Add a "backspace" button so the user can undo if they click the wrong number 
 
-5. Add a "." button for inputting decimals. But limit it to only one
-
-6. Add a "backspace" button so the user can undo if they click the wrong number
-
-7. Add keyboard support!
+5. Add keyboard support!
 
 */
