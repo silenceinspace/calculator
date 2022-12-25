@@ -41,8 +41,14 @@ function operate(num1, num2, operator){
     }
 
     if(operator == '/') {
-        result = divide(num1, num2);
-        display.textContent = parseFloat(result.toFixed(3));
+        if (num2 == 0) {
+            alert(`Are you trying to break my calculator? :P`); //prevent calculation where num1 is being divided by 0;
+            display.textContent = num1;
+            result = num1;
+        } else {
+            result = divide(num1, num2);
+            display.textContent = parseFloat(result.toFixed(3));
+        };
     };
 };
 
@@ -266,10 +272,10 @@ backspace.addEventListener('click', () => {
         result = deleteOneChar.join("");
         display.textContent = result;
     } else {
-        deleteOneChar = currentValue.split("");
-        deleteOneChar.pop();
-        currentValue = deleteOneChar.join("");
-        display.textContent = currentValue;
+        deleteOneChar = currentValue.split(""); //split a value in the variable
+        deleteOneChar.pop(); //remove the last kinda array item because of the split method 
+        currentValue = deleteOneChar.join(""); //join array items into one string again;
+        display.textContent = currentValue; //update currentValue's value both on the screen and for calculation
     };
 });
 
@@ -280,10 +286,6 @@ backspace.addEventListener('click', () => {
 
 2. Pressing = before entering anything causes problems, fix it
 
-3. Display an error message if the user tries to divide by 0
-
-4. Add a "backspace" button so the user can undo if they click the wrong number 
-
-5. Add keyboard support (work on it inside of a different branch though, and eventually merge the changes into the master branch. Just a bit of git practice)
+3. Add keyboard support (work on it inside of a different branch though, and eventually merge the changes into the master branch. Just a bit of git practice)
 
 */
