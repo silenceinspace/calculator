@@ -255,16 +255,23 @@ period.addEventListener('click', (e) => {
     };
 });
 
+let deleteOneChar;
 const backspace = document.querySelector('.backspace');
 backspace.addEventListener('click', () => {
     console.log('backspace has been pressed');
+
+    if (isResult && !operatorIsPressed) {
+        deleteOneChar = result.toString().split("");
+        deleteOneChar.pop();
+        result = deleteOneChar.join("");
+        display.textContent = result;
+    } else {
+        deleteOneChar = currentValue.split("");
+        deleteOneChar.pop();
+        currentValue = deleteOneChar.join("");
+        display.textContent = currentValue;
+    };
 });
-
-
-alert('what is up!');
-alert('Anton');
-alert('Long time no see!');
-
 
 
 /*
