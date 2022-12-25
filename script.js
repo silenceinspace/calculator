@@ -213,14 +213,18 @@ let currentValue = '';
 buttons.forEach((item) => {
     item.addEventListener('click', (e) => {
 
-        if (!operatorIsPressed && result !== 0) {
-            display.textContent += `${e.target.value}`;
-            result += item.value;
-            //if there's some number on the screen (result), then keep adding to it to make one number;
-            //don't depend on null only
+        if (display.textContent.split("").length > 12) {
+            e.preventDefault(); //not allow any overflow on the display, fixed number of characters
         } else {
-        display.textContent += `${e.target.value}`;
-        currentValue += item.value;
+            if (!operatorIsPressed && result !== 0) {
+                display.textContent += `${e.target.value}`;
+                result += item.value;
+                //if there's some number on the screen (result), then keep adding to it to make one number;
+                //don't depend on null only
+            } else {
+                display.textContent += `${e.target.value}`;
+                currentValue += item.value;
+            };
         };
     });
 });
