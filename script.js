@@ -261,6 +261,11 @@ backspace.addEventListener('click', () => {
 });
 
 
+alert('what is up!');
+alert('Anton');
+alert('Long time no see!');
+
+
 
 /*
 
@@ -272,6 +277,6 @@ backspace.addEventListener('click', () => {
 
 4. Add a "backspace" button so the user can undo if they click the wrong number 
 
-5. Add keyboard support!
+5. Add keyboard support (work on it inside of a different branch though, and eventually merge the changes into the master branch. Just a bit of git practice)
 
 */
