@@ -70,6 +70,8 @@ function operatorCanEqual() {
         operatorIsPressed = false;
         removeActiveClass();
         decimalIsUsed = false;
+
+        showResults.textContent = result; //display subsequent results;
 }; 
 
 //functionality of 4 operators + equals key
@@ -167,9 +169,14 @@ multiplicationKey.addEventListener('click', () => {
     };
 });
 
-equalsKey.addEventListener('click', () => {
-    operatorCanEqual();
-    removeActiveClass();
+equalsKey.addEventListener('click', (e) => {
+    if (num1 === undefined) { //disable pressing the equals button as the very first option
+        e.preventDefault();
+        console.log('limit!');
+    } else {
+        operatorCanEqual();
+        removeActiveClass();
+    };
 });
 
 // add or remove class to show which operator is being used 
@@ -201,11 +208,13 @@ function saveFirstNumber() {
     currentValue = '';
     decimalIsUsed = false;
 
+    showResults.textContent = num1; // display subsequent results
 };
 
 // DOM - digits, display, clearKey
 const buttons = document.querySelectorAll('.number');
 const display = document.querySelector('.display-values');
+const showResults = document.querySelector("#show-results");
 const clearKey = document.querySelector('.clear-key');
 
 // populate the display and store a value
@@ -213,7 +222,7 @@ let currentValue = '';
 buttons.forEach((item) => {
     item.addEventListener('click', (e) => {
 
-        if (display.textContent.split("").length > 12) {
+        if (display.textContent.split("").length >= 10) {
             e.preventDefault(); //not allow any overflow on the display, fixed number of characters
         } else {
             if (!operatorIsPressed && result !== 0) {
@@ -234,9 +243,10 @@ clearKey.addEventListener('click', () => {
     removeActiveClass();
     display.textContent = '';
     currentValue = '';
+    showResults.textContent = '';
 
-    num1 = 0;
-    num2 = 0;
+    num1 = undefined; 
+    num2 = undefined;
     result = 0;
 
     isResult = false;
@@ -283,12 +293,11 @@ backspace.addEventListener('click', () => {
     };
 });
 
-
 /*
 
-1. While doing multiple calculations, try to show the in-between result somewhere
+1. Css for the project, remade the calculator case. Maybe make it bigger
 
-2. Pressing = before entering anything causes problems, fix it
+2. Change alerts while dividing by zero, first one is set by default. And others appear during repetition, so that the user knows they have to input a number or an operator
 
 3. Add keyboard support (work on it inside of a different branch though, and eventually merge the changes into the master branch. Just a bit of git practice)
 

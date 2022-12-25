@@ -24,19 +24,26 @@ body {
 .display {
     height:100px;
     width:auto;
-    background-color: black;
     border-bottom: 5px solid purple;
 }
 
 .display-values {
     width: auto;
-    height: 50px;
+    height: 60px;
     background: white;
-    border-radius: 10px;
-    margin: 20px;
-    padding:5px;
-    font-size: 2rem;
+    font-size: 3rem;
+    /* padding-right: 10px;; */
     text-align: right;
+}
+
+#show-results {
+    width: auto; 
+    height:35px; 
+    background-color: white;
+    margin:auto;
+    font-size: 1.8rem;
+    text-align:right;
+    border-bottom:3px grey solid;
 }
 
 .buttons {
