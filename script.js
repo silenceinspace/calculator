@@ -27,27 +27,31 @@ function divide(a,b) {
 function operate(num1, num2, operator){
     if(operator == '+') {
         result = add(num1, num2);
-        display.textContent = parseFloat(result.toFixed(3));
+        result = parseFloat(result.toFixed(3));
+        display.textContent = result;
     }
 
     if(operator == '-') {
         result = subtract(num1, num2);
-        display.textContent = parseFloat(result.toFixed(3));
+        result = parseFloat(result.toFixed(3));
+        display.textContent = result;
     }
 
     if(operator == '*') {
         result = multiply(num1, num2);
-        display.textContent = parseFloat(result.toFixed(3));
+        result = parseFloat(result.toFixed(3));
+        display.textContent = result;
     }
 
     if(operator == '/') {
         if (num2 == 0) {
-            alert(`Are you trying to break my calculator? :P`); //prevent calculation where num1 is being divided by 0;
-            display.textContent = num1;
+            alert("Can't divide by 0! Choose a number and an operator again:D"); //prevent calculation where num1 is being divided by 0;
+            display.textContent = '';
             result = num1;
         } else {
             result = divide(num1, num2);
-            display.textContent = parseFloat(result.toFixed(3));
+            result = parseFloat(result.toFixed(3));
+            display.textContent = result;
         };
     };
 };
@@ -64,14 +68,18 @@ let operatorIsPressed = false; //keep track of whether or not an operator has be
 let num2;
 let operator;
 function operatorCanEqual() {
-        num2 = +currentValue;
-        operate(num1, num2, operator);
-        isResult = true;
-        operatorIsPressed = false;
-        removeActiveClass();
-        decimalIsUsed = false;
 
-        showResults.textContent = result; //display subsequent results;
+        if (display.textContent == '.') {
+            alert("This calculation is not possible xD");
+        } else {
+            num2 = +currentValue;
+            operate(num1, num2, operator);
+            isResult = true;
+            operatorIsPressed = false;
+            removeActiveClass();
+
+            showResults.textContent = parseFloat(result.toFixed(3)); //display subsequent results;
+        };
 }; 
 
 //functionality of 4 operators + equals key
@@ -199,16 +207,19 @@ let result = 0;
 let num1;
 function saveFirstNumber() {
 
-    if (isResult){
-        num1 = +result;
+    if (display.textContent == '.') {
+        alert('This calculation is not possible xD');
     } else {
-        num1 = +currentValue;
-    };
-    display.textContent = '';
-    currentValue = '';
-    decimalIsUsed = false;
+        if (isResult){
+            num1 = +result;
+        } else {
+            num1 = +currentValue;
+        };
+        display.textContent = '';
+        currentValue = '';
 
-    showResults.textContent = num1; // display subsequent results
+        showResults.textContent = parseFloat(num1.toFixed(3)); // display subsequent results
+    };
 };
 
 // DOM - digits, display, clearKey
@@ -251,27 +262,29 @@ clearKey.addEventListener('click', () => {
 
     isResult = false;
     operatorIsPressed = false;
-    decimalIsUsed = false;
     console.log('data has been cleared...');
 });
 
 // allow one decimal 
-let decimalIsUsed = false;
+
 const period = document.querySelector('.period');
 period.addEventListener('click', (e) => {
 
-    if (!decimalIsUsed) {
-        if (!operatorIsPressed && result !== 0) {
-            display.textContent += `${e.target.value}`;
-            result += '.';
-            decimalIsUsed = true;
-        } else {
-            display.textContent += `${e.target.value}`;
-            currentValue += '.';
-            decimalIsUsed = true;
-        }
+    let array = display.textContent.split("");
+    let foundPeriod = array.find(period => period == '.');
+
+    if (foundPeriod == '.') {
+        e.preventDefault();
+        console.log('there is a period');
     } else {
-        e.preventDefault(); //if decimalIsUsed == true then prevent clicking the button
+        console.log('I will add a period');
+        display.textContent += `${e.target.value}`;
+
+        if (!operatorIsPressed && result !==0) {
+            result += '.';
+        } else {
+            currentValue += '.';
+        };
     };
 });
 
@@ -297,7 +310,7 @@ backspace.addEventListener('click', () => {
 
 1. Css for the project, remade the calculator case. Maybe make it bigger
 
-2. Change alerts while dividing by zero, first one is set by default. And others appear during repetition, so that the user knows they have to input a number or an operator
+2. Optimize the code + potentially use more array methods instead of hardcoding strings;  
 
 3. Add keyboard support (work on it inside of a different branch though, and eventually merge the changes into the master branch. Just a bit of git practice)
 
