@@ -248,6 +248,150 @@ buttons.forEach((item) => {
         };
     });
 });
+        
+//keyboard support
+function showKeyboardValue(e, key) {
+
+    if (display.textContent.split("").length >= 10) {
+        e.preventDefault();
+    } else {
+        if (!operatorIsPressed && result !== 0) {
+            display.textContent += key;
+            result += key;
+        } else {
+            display.textContent += key;
+            currentValue += key;
+        };
+    };
+};
+
+window.addEventListener('keydown', (e) => {
+    //numbers
+    if (e.key == '1') {
+        showKeyboardValue(e, e.key);
+    } else if (e.key == '2') {     
+        showKeyboardValue(e, e.key);
+    } else if (e.key == '3') {     
+        showKeyboardValue(e, e.key);
+    } else if (e.key == '4') {     
+        showKeyboardValue(e, e.key);
+    } else if (e.key == '5') {     
+        showKeyboardValue(e, e.key);
+    } else if (e.key == '6') {     
+        showKeyboardValue(e, e.key);
+    } else if (e.key == '7') {     
+        showKeyboardValue(e, e.key);
+    } else if (e.key == '8') {     
+        showKeyboardValue(e, e.key);
+    } else if (e.key == '9') {     
+        showKeyboardValue(e, e.key);
+    } else if (e.key == '0') {     
+        showKeyboardValue(e, e.key);
+    } 
+    
+    //operators
+    else if (e.key == '.') {     
+        console.log('period');
+        showKeyboardValue(e, e.key);
+    //plus
+    } else if (e.key == '+') {
+
+        if (operatorIsPressed) {
+            if (operator == '+') {
+                operatorCanEqual();
+            } else {
+                operatorCanEqual();
+    
+                operator = '+';
+                highlightOperator(plusKey);
+                saveFirstNumber();
+                operatorIsPressed = true;
+            };
+    
+        } else {
+            operator = '+';
+            highlightOperator(plusKey);
+            saveFirstNumber();
+            operatorIsPressed = true;
+        };
+    //minus
+    } else if (e.key == '-') {
+
+        if (operatorIsPressed) {
+            if (operator == '-') {
+                operatorCanEqual();
+            } else {
+                operatorCanEqual();
+    
+                operator = '-';
+                highlightOperator(minusKey);
+                saveFirstNumber();
+                operatorIsPressed = true;
+            };
+    
+        } else {
+            operator = '-';
+            highlightOperator(minusKey);
+            saveFirstNumber();
+            operatorIsPressed = true;
+        };
+    //multiplication
+    } else if (e.key == '*') {  
+
+        if (operatorIsPressed) {
+            if (operator == '*') {
+                operatorCanEqual();
+            } else {
+                operatorCanEqual();
+    
+                operator = '*';
+                highlightOperator(multiplicationKey);
+                saveFirstNumber();
+                operatorIsPressed = true;
+            };
+    
+        } else {
+            operator = '*';
+            highlightOperator(multiplicationKey);
+            saveFirstNumber();
+            operatorIsPressed = true;
+        };
+    //division
+    } else if (e.key == '/') {
+
+        if (operatorIsPressed) {
+            if (operator == '/') {
+                operatorCanEqual();
+            } else {
+                operatorCanEqual();
+    
+                operator = '/';
+                highlightOperator(divisionKey);
+                saveFirstNumber();
+                operatorIsPressed = true;
+            };
+    
+        } else {
+            operator = '/';
+            highlightOperator(divisionKey);
+            saveFirstNumber();
+            operatorIsPressed = true;
+        };
+    //equal
+    } else if (e.key == 'Enter'){
+        if (num1 === undefined) {
+            e.preventDefault();
+            console.log('limit!');
+        } else {
+            operatorCanEqual();
+            removeActiveClass();
+        };
+    };
+    // } else if (e.key == 'Backspace') {
+    //     console.log('backspace');
+    //     showKeyboardValue(e, e.key);
+    // }
+});
 
 // wipe out all data 
 clearKey.addEventListener('click', () => {
@@ -310,8 +454,10 @@ backspace.addEventListener('click', () => {
 
 1. Css for the project, remade the calculator case. Maybe make it bigger
 
-2. Optimize the code + potentially use more array methods instead of hardcoding strings;  
+2. Create a "safe" null + make sure that I can't input only nulls two times in a row
 
-3. Add keyboard support (work on it inside of a different branch though, and eventually merge the changes into the master branch. Just a bit of git practice)
+3. Optimize the code (use array methods instead of hardcoding, avoid repetition, place most things in order);  
+
+4. Finish the keyboard functionality
 
 */
