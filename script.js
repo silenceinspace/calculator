@@ -233,7 +233,7 @@ let currentValue = '';
 buttons.forEach((item) => {
     item.addEventListener('click', (e) => {
 
-        if (display.textContent.split("").length >= 10) {
+        if (display.textContent.split("").length >= 10 || display.textContent == '0') {
             e.preventDefault(); //not allow any overflow on the display, fixed number of characters
         } else {
             if (!operatorIsPressed && result !== 0) {
@@ -252,7 +252,7 @@ buttons.forEach((item) => {
 //keyboard support
 function showKeyboardValue(e, key) {
 
-    if (display.textContent.split("").length >= 10) {
+    if (display.textContent.split("").length >= 10 || display.textContent == '0') {
         e.preventDefault();
     } else {
         if (!operatorIsPressed && result !== 0) {
@@ -290,9 +290,24 @@ window.addEventListener('keydown', (e) => {
     } 
     
     //operators
-    else if (e.key == '.') {     
-        console.log('period');
-        showKeyboardValue(e, e.key);
+    else if (e.key == '.') {
+
+        let array = display.textContent.split("");
+        let foundPeriod = array.find(period => period == '.');
+
+        if (display.textContent.split("").length >= 10 || foundPeriod == '.') {
+            e.preventDefault();
+            console.log('no period for you');
+        } else {
+            if (!operatorIsPressed && result !== 0) {
+                display.textContent += e.key;
+                result += e.key;
+            } else {
+                display.textContent += e.key;
+                currentValue += e.key;
+            };
+            console.log('period');
+        };
     //plus
     } else if (e.key == '+') {
 
@@ -386,15 +401,29 @@ window.addEventListener('keydown', (e) => {
             operatorCanEqual();
             removeActiveClass();
         };
+    //backspace
+    } else if (e.key == 'Backspace') {
+        console.log('backspace');
+        
+        if (isResult && !operatorIsPressed) {
+            deleteOneChar = result.toString().split("");
+            deleteOneChar.pop();
+            result = deleteOneChar.join("");
+            display.textContent = result;
+            showResults.textContent = result;
+        } else {
+            deleteOneChar = currentValue.split("");
+            deleteOneChar.pop(); 
+            currentValue = deleteOneChar.join("");
+            display.textContent = currentValue;
+        };
+    } else if (e.key == 'Delete') {
+        clearAll();
     };
-    // } else if (e.key == 'Backspace') {
-    //     console.log('backspace');
-    //     showKeyboardValue(e, e.key);
-    // }
 });
 
 // wipe out all data 
-clearKey.addEventListener('click', () => {
+function clearAll() {
     removeActiveClass();
     display.textContent = '';
     currentValue = '';
@@ -407,13 +436,15 @@ clearKey.addEventListener('click', () => {
     isResult = false;
     operatorIsPressed = false;
     console.log('data has been cleared...');
-});
+}
+clearKey.addEventListener('click', clearAll);
 
 // allow one decimal 
 
 const period = document.querySelector('.period');
-period.addEventListener('click', (e) => {
+period.addEventListener('click', limitPeriod);
 
+function limitPeriod(e) {
     let array = display.textContent.split("");
     let foundPeriod = array.find(period => period == '.');
 
@@ -430,7 +461,7 @@ period.addEventListener('click', (e) => {
             currentValue += '.';
         };
     };
-});
+};
 
 let deleteOneChar;
 const backspace = document.querySelector('.backspace');
@@ -442,11 +473,13 @@ backspace.addEventListener('click', () => {
         deleteOneChar.pop();
         result = deleteOneChar.join("");
         display.textContent = result;
+        showResults.textContent = result;
     } else {
         deleteOneChar = currentValue.split(""); //split a value in the variable
         deleteOneChar.pop(); //remove the last kinda array item because of the split method 
         currentValue = deleteOneChar.join(""); //join array items into one string again;
-        display.textContent = currentValue; //update currentValue's value both on the screen and for calculation
+        display.textContent = currentValue;
+        //update currentValue's value both on the screen and for calculation
     };
 });
 
@@ -454,10 +487,6 @@ backspace.addEventListener('click', () => {
 
 1. Css for the project, remade the calculator case. Maybe make it bigger
 
-2. Create a "safe" null + make sure that I can't input only nulls two times in a row
-
-3. Optimize the code (use array methods instead of hardcoding, avoid repetition, place most things in order);  
-
-4. Finish the keyboard functionality
+2. Optimize the code (use array methods instead of hardcoding, avoid repetition, place most things in order);  
 
 */
