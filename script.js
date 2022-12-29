@@ -27,20 +27,17 @@ function divide(a,b) {
 function operate(num1, num2, operator){
     if(operator == '+') {
         result = add(num1, num2);
-        result = parseFloat(result.toFixed(3));
-        display.textContent = result;
+        roundResultWithDecimals();
     }
 
     if(operator == '-') {
         result = subtract(num1, num2);
-        result = parseFloat(result.toFixed(3));
-        display.textContent = result;
+        roundResultWithDecimals();
     }
 
     if(operator == '*') {
         result = multiply(num1, num2);
-        result = parseFloat(result.toFixed(3));
-        display.textContent = result;
+        roundResultWithDecimals();
     }
 
     if(operator == '/') {
@@ -50,11 +47,15 @@ function operate(num1, num2, operator){
             result = num1;
         } else {
             result = divide(num1, num2);
-            result = parseFloat(result.toFixed(3));
-            display.textContent = result;
+            roundResultWithDecimals();
         };
     };
 };
+
+function roundResultWithDecimals() {
+    result = parseFloat(result.toFixed(3));
+    display.textContent = result;
+}
 
 //DOM - 4 operators and equals key
 const divisionKey = document.querySelector('.division');
@@ -94,18 +95,14 @@ plusKey.addEventListener('click', () => {
             operator = '+';
             highlightOperator(plusKey);
             saveFirstNumber();
-            operatorIsPressed = true;
         };
 
     } else {
         operator = '+';
         highlightOperator(plusKey);
         saveFirstNumber();
-        operatorIsPressed = true;
     };
 });
-
-//separate for now
 
 minusKey.addEventListener('click', () => {
 
@@ -118,18 +115,14 @@ minusKey.addEventListener('click', () => {
             operator = '-';
             highlightOperator(minusKey);
             saveFirstNumber();
-            operatorIsPressed = true;
         };
 
     } else {
         operator = '-';
         highlightOperator(minusKey);
         saveFirstNumber();
-        operatorIsPressed = true;
     };
 });
-
-//separate for now
 
 divisionKey.addEventListener('click', () => {
 
@@ -142,18 +135,14 @@ divisionKey.addEventListener('click', () => {
             operator = '/';
             highlightOperator(divisionKey);
             saveFirstNumber();
-            operatorIsPressed = true;
         };
 
     } else {
         operator = '/';
         highlightOperator(divisionKey);
         saveFirstNumber();
-        operatorIsPressed = true;
     };
 });
-
-//separate for now
 
 multiplicationKey.addEventListener('click', () => {
 
@@ -166,21 +155,18 @@ multiplicationKey.addEventListener('click', () => {
             operator = '*';
             highlightOperator(multiplicationKey);
             saveFirstNumber();
-            operatorIsPressed = true;
         };
 
     } else {
         operator = '*';
         highlightOperator(multiplicationKey);
         saveFirstNumber();
-        operatorIsPressed = true;
     };
 });
 
 equalsKey.addEventListener('click', (e) => {
-    if (num1 === undefined) { //disable pressing the equals button as the very first option
+    if (num1 === undefined) { //disable pressing the equals button before everything else
         e.preventDefault();
-        console.log('limit!');
     } else {
         operatorCanEqual();
         removeActiveClass();
@@ -190,6 +176,7 @@ equalsKey.addEventListener('click', (e) => {
 // add or remove class to show which operator is being used 
 function highlightOperator(param) {
     param.classList.add('active');
+    operatorIsPressed = true;
 }
 
 function removeActiveClass() {
@@ -222,25 +209,23 @@ function saveFirstNumber() {
     };
 };
 
-// DOM - digits, display, clearKey
+// DOM - digits, display
 const buttons = document.querySelectorAll('.number');
 const display = document.querySelector('.display-values');
 const showResults = document.querySelector("#show-results");
-const clearKey = document.querySelector('.clear-key');
 
 // populate the display and store a value
 let currentValue = '';
 buttons.forEach((item) => {
     item.addEventListener('click', (e) => {
 
-        if (display.textContent.split("").length >= 10 || display.textContent == '0') {
+        if (display.textContent.split("").length >= 13 || display.textContent == '0') {
             e.preventDefault(); //not allow any overflow on the display, fixed number of characters
         } else {
-            if (!operatorIsPressed && result !== 0) {
+            if (!operatorIsPressed && result !== 0) { //if there's some number on the screen (result), then keep adding to it to make one number;
+
                 display.textContent += `${e.target.value}`;
                 result += item.value;
-                //if there's some number on the screen (result), then keep adding to it to make one number;
-                //don't depend on null only
             } else {
                 display.textContent += `${e.target.value}`;
                 currentValue += item.value;
@@ -248,11 +233,68 @@ buttons.forEach((item) => {
         };
     });
 });
+
+// allow one decimal 
+const period = document.querySelector('.period');
+period.addEventListener('click', limitPeriod);
+function limitPeriod(e) {
+    let array = display.textContent.split("");
+    let foundPeriod = array.find(period => period == '.');
+
+    if (foundPeriod == '.') {
+        e.preventDefault();
+    } else {
+        display.textContent += `${e.target.value}`;
+
+        if (!operatorIsPressed && result !==0) {
+            result += '.';
+        } else {
+            currentValue += '.';
+        };
+    };
+};
+
+//backspace key
+const backspace = document.querySelector('.backspace');
+backspace.addEventListener('click', useBackspace);
+function useBackspace() {
+    let deleteOneChar;
+    if (isResult && !operatorIsPressed) {
+        deleteOneChar = result.toString().split("");
+        deleteOneChar.pop();
+        result = deleteOneChar.join("");
+        display.textContent = result;
+        showResults.textContent = result;
+    } else {
+        deleteOneChar = currentValue.split(""); //split a value in the variable
+        deleteOneChar.pop(); //remove the last kinda array item because of the split method 
+        currentValue = deleteOneChar.join(""); //join array items into one string again;
+        display.textContent = currentValue; //update currentValue's value both on the screen and for calculation
+    };
+};
+
+// wipe out all data
+const clearKey = document.querySelector('.clear-key');
+clearKey.addEventListener('click', clearAll);
+function clearAll() {
+    display.textContent = '';
+    currentValue = '';
+    showResults.textContent = '';
+
+    num1 = undefined; 
+    num2 = undefined;
+    result = 0;
+
+    isResult = false;
+    operatorIsPressed = false;
+    removeActiveClass();
+};
+
         
 //keyboard support
 function showKeyboardValue(e, key) {
 
-    if (display.textContent.split("").length >= 10 || display.textContent == '0') {
+    if (display.textContent.split("").length >= 13 || display.textContent == '0') {
         e.preventDefault();
     } else {
         if (!operatorIsPressed && result !== 0) {
@@ -267,6 +309,7 @@ function showKeyboardValue(e, key) {
 
 window.addEventListener('keydown', (e) => {
     //numbers
+    // create an object here??
     if (e.key == '1') {
         showKeyboardValue(e, e.key);
     } else if (e.key == '2') {     
@@ -295,19 +338,12 @@ window.addEventListener('keydown', (e) => {
         let array = display.textContent.split("");
         let foundPeriod = array.find(period => period == '.');
 
-        if (display.textContent.split("").length >= 10 || foundPeriod == '.') {
+        if (display.textContent.split("").length >= 13 || foundPeriod == '.') {
             e.preventDefault();
-            console.log('no period for you');
         } else {
-            if (!operatorIsPressed && result !== 0) {
-                display.textContent += e.key;
-                result += e.key;
-            } else {
-                display.textContent += e.key;
-                currentValue += e.key;
-            };
-            console.log('period');
+            showKeyboardValue(e, e.key);
         };
+
     //plus
     } else if (e.key == '+') {
 
@@ -320,15 +356,14 @@ window.addEventListener('keydown', (e) => {
                 operator = '+';
                 highlightOperator(plusKey);
                 saveFirstNumber();
-                operatorIsPressed = true;
             };
     
         } else {
             operator = '+';
             highlightOperator(plusKey);
             saveFirstNumber();
-            operatorIsPressed = true;
         };
+
     //minus
     } else if (e.key == '-') {
 
@@ -341,15 +376,14 @@ window.addEventListener('keydown', (e) => {
                 operator = '-';
                 highlightOperator(minusKey);
                 saveFirstNumber();
-                operatorIsPressed = true;
             };
     
         } else {
             operator = '-';
             highlightOperator(minusKey);
             saveFirstNumber();
-            operatorIsPressed = true;
         };
+        
     //multiplication
     } else if (e.key == '*') {  
 
@@ -362,15 +396,14 @@ window.addEventListener('keydown', (e) => {
                 operator = '*';
                 highlightOperator(multiplicationKey);
                 saveFirstNumber();
-                operatorIsPressed = true;
             };
     
         } else {
             operator = '*';
             highlightOperator(multiplicationKey);
             saveFirstNumber();
-            operatorIsPressed = true;
         };
+
     //division
     } else if (e.key == '/') {
 
@@ -383,110 +416,33 @@ window.addEventListener('keydown', (e) => {
                 operator = '/';
                 highlightOperator(divisionKey);
                 saveFirstNumber();
-                operatorIsPressed = true;
             };
     
         } else {
             operator = '/';
             highlightOperator(divisionKey);
             saveFirstNumber();
-            operatorIsPressed = true;
         };
+
     //equal
     } else if (e.key == 'Enter'){
         if (num1 === undefined) {
             e.preventDefault();
-            console.log('limit!');
         } else {
             operatorCanEqual();
             removeActiveClass();
         };
+    
     //backspace
     } else if (e.key == 'Backspace') {
-        console.log('backspace');
-        
-        if (isResult && !operatorIsPressed) {
-            deleteOneChar = result.toString().split("");
-            deleteOneChar.pop();
-            result = deleteOneChar.join("");
-            display.textContent = result;
-            showResults.textContent = result;
-        } else {
-            deleteOneChar = currentValue.split("");
-            deleteOneChar.pop(); 
-            currentValue = deleteOneChar.join("");
-            display.textContent = currentValue;
-        };
+        useBackspace();        
     } else if (e.key == 'Delete') {
         clearAll();
     };
 });
 
-// wipe out all data 
-function clearAll() {
-    removeActiveClass();
-    display.textContent = '';
-    currentValue = '';
-    showResults.textContent = '';
-
-    num1 = undefined; 
-    num2 = undefined;
-    result = 0;
-
-    isResult = false;
-    operatorIsPressed = false;
-    console.log('data has been cleared...');
-}
-clearKey.addEventListener('click', clearAll);
-
-// allow one decimal 
-
-const period = document.querySelector('.period');
-period.addEventListener('click', limitPeriod);
-
-function limitPeriod(e) {
-    let array = display.textContent.split("");
-    let foundPeriod = array.find(period => period == '.');
-
-    if (foundPeriod == '.') {
-        e.preventDefault();
-        console.log('there is a period');
-    } else {
-        console.log('I will add a period');
-        display.textContent += `${e.target.value}`;
-
-        if (!operatorIsPressed && result !==0) {
-            result += '.';
-        } else {
-            currentValue += '.';
-        };
-    };
-};
-
-let deleteOneChar;
-const backspace = document.querySelector('.backspace');
-backspace.addEventListener('click', () => {
-    console.log('backspace has been pressed');
-
-    if (isResult && !operatorIsPressed) {
-        deleteOneChar = result.toString().split("");
-        deleteOneChar.pop();
-        result = deleteOneChar.join("");
-        display.textContent = result;
-        showResults.textContent = result;
-    } else {
-        deleteOneChar = currentValue.split(""); //split a value in the variable
-        deleteOneChar.pop(); //remove the last kinda array item because of the split method 
-        currentValue = deleteOneChar.join(""); //join array items into one string again;
-        display.textContent = currentValue;
-        //update currentValue's value both on the screen and for calculation
-    };
-});
-
 /*
 
-1. Css for the project, remade the calculator case. Maybe make it bigger
-
-2. Optimize the code (use array methods instead of hardcoding, avoid repetition, place most things in order);  
+- Optimize the code (use array methods instead of hardcoding, avoid repetition, place most things in order);  
 
 */

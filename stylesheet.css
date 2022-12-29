@@ -8,17 +8,38 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: rgb(3, 54, 3);
     min-height: 100vh;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#footer {
+    background-color: black;
+    color: white;
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color:white;
+}
+
+a:hover {
+    color:red;
+    border: 2px solid yellow;
+    padding: 5px;
 }
 
 #calculator-case {
-    height: 500px;
-    width:  300px;
+    height: 515px;
+    width:  400px;
     margin: auto;
-    /* margin-top:50px; */
-    border: 5px solid purple;
+    border: 10px solid purple;
     display: flex;
     flex-direction: column;
-    border-radius: 10px;
 }
 
 .display {
@@ -32,7 +53,6 @@ body {
     height: 60px;
     background: white;
     font-size: 3rem;
-    /* padding-right: 10px;; */
     text-align: right;
 }
 
@@ -76,7 +96,6 @@ body {
 }
 
 .item:active {
-    /* transform: translateY(4px); */
     background-color: skyblue;
 }
 
@@ -134,3 +153,5 @@ body {
 .active {
     background-color:skyblue;
 }
+
+/* responsiveness for smaller screens ??? */
