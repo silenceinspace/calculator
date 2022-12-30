@@ -24,32 +24,30 @@ function divide(a,b) {
     return a/b;
 };
 
-function operate(num1, num2, operator){
-    if(operator == '+') {
-        result = add(num1, num2);
-        roundResultWithDecimals();
-    }
+function operate(num1, num2, operator) {
 
-    if(operator == '-') {
-        result = subtract(num1, num2);
-        roundResultWithDecimals();
-    }
-
-    if(operator == '*') {
-        result = multiply(num1, num2);
-        roundResultWithDecimals();
-    }
-
-    if(operator == '/') {
-        if (num2 == 0) {
-            alert("Can't divide by 0! Choose a number and an operator again:D"); //prevent calculation where num1 is being divided by 0;
-            display.textContent = '';
-            result = num1;
-        } else {
-            result = divide(num1, num2);
-            roundResultWithDecimals();
-        };
+    switch(operator) { //switch ---> if(operator == '+')
+        case '+':
+            result = add(num1, num2);
+            break;
+        case '-':
+            result = subtract(num1, num2);
+            break;
+        case '*':
+            result = multiply(num1, num2);
+            break;
+        case '/':
+            if (num2 == 0) {
+                alert("Can't divide by 0!");
+                result = num1;
+                break;
+            } else {
+                result = divide(num1, num2);
+                break;
+            };
     };
+    roundResultWithDecimals();
+    isResult = true;
 };
 
 function roundResultWithDecimals() {
@@ -75,8 +73,6 @@ function operatorCanEqual() {
         } else {
             num2 = +currentValue;
             operate(num1, num2, operator);
-            isResult = true;
-            operatorIsPressed = false;
             removeActiveClass();
 
             showResults.textContent = parseFloat(result.toFixed(3)); //display subsequent results;
@@ -84,92 +80,91 @@ function operatorCanEqual() {
 }; 
 
 //functionality of 4 operators + equals key
-plusKey.addEventListener('click', () => {
-
+plusKey.addEventListener('click', usePlusKey);
+function usePlusKey() {
     if (operatorIsPressed) {
-        if (operator == '+') {
-            operatorCanEqual();
-        } else {
-            operatorCanEqual();
-
-            operator = '+';
-            highlightOperator(plusKey);
-            saveFirstNumber();
+        switch (operator) {
+            case '+':
+                operatorCanEqual();
+                break;
+            default:
+                operatorCanEqual();
+                operator = '+';
+                highlightOperator(plusKey);
+                saveFirstNumber();
         };
-
     } else {
         operator = '+';
         highlightOperator(plusKey);
         saveFirstNumber();
     };
-});
+};
 
-minusKey.addEventListener('click', () => {
-
+minusKey.addEventListener('click', useMinusKey);
+function useMinusKey() {
     if (operatorIsPressed) {
-        if (operator == '-') {
-            operatorCanEqual();
-        } else {
-            operatorCanEqual();
-
-            operator = '-';
-            highlightOperator(minusKey);
-            saveFirstNumber();
+        switch (operator) {
+            case '-':
+                operatorCanEqual();
+                break;
+            default:
+                operatorCanEqual();
+                operator = '-';
+                highlightOperator(minusKey);
+                saveFirstNumber();
         };
-
     } else {
         operator = '-';
         highlightOperator(minusKey);
         saveFirstNumber();
     };
-});
+};
 
-divisionKey.addEventListener('click', () => {
-
+divisionKey.addEventListener('click', useDivisionKey);
+function useDivisionKey() {
     if (operatorIsPressed) {
-        if (operator == '/') {
-            operatorCanEqual();
-        } else {
-            operatorCanEqual();
-
-            operator = '/';
-            highlightOperator(divisionKey);
-            saveFirstNumber();
+        switch (operator) {
+            case '/':
+                operatorCanEqual();
+                break;
+            default:
+                operatorCanEqual();
+                operator = '/';
+                highlightOperator(divisionKey);
+                saveFirstNumber();
         };
-
     } else {
         operator = '/';
         highlightOperator(divisionKey);
         saveFirstNumber();
     };
-});
+};
 
-multiplicationKey.addEventListener('click', () => {
-
+multiplicationKey.addEventListener('click', useMultiplicationKey);
+function useMultiplicationKey() {
     if (operatorIsPressed) {
-        if (operator == '*') {
-            operatorCanEqual();
-        } else {
-            operatorCanEqual();
-
-            operator = '*';
-            highlightOperator(multiplicationKey);
-            saveFirstNumber();
+        switch (operator) {
+            case '*':
+                operatorCanEqual();
+                break;
+            default:
+                operatorCanEqual();
+                operator = '*';
+                highlightOperator(multiplicationKey);
+                saveFirstNumber();
         };
-
-    } else {
+    } else {  
         operator = '*';
         highlightOperator(multiplicationKey);
         saveFirstNumber();
     };
-});
+};
 
 equalsKey.addEventListener('click', (e) => {
     if (num1 === undefined) { //disable pressing the equals button before everything else
         e.preventDefault();
     } else {
         operatorCanEqual();
-        removeActiveClass();
     };
 });
 
@@ -184,6 +179,8 @@ function removeActiveClass() {
     minusKey.classList.remove('active');
     divisionKey.classList.remove('active');
     multiplicationKey.classList.remove('active');
+
+    operatorIsPressed = false;
 }
 
 //enable further calculation with result 
@@ -241,7 +238,7 @@ function limitPeriod(e) {
     let array = display.textContent.split("");
     let foundPeriod = array.find(period => period == '.');
 
-    if (foundPeriod == '.') {
+    if (foundPeriod) {
         e.preventDefault();
     } else {
         display.textContent += `${e.target.value}`;
@@ -278,19 +275,18 @@ const clearKey = document.querySelector('.clear-key');
 clearKey.addEventListener('click', clearAll);
 function clearAll() {
     display.textContent = '';
-    currentValue = '';
     showResults.textContent = '';
+    currentValue = '';
 
     num1 = undefined; 
     num2 = undefined;
     result = 0;
 
     isResult = false;
-    operatorIsPressed = false;
     removeActiveClass();
 };
 
-        
+// try to keep this section shorter!!!
 //keyboard support
 function showKeyboardValue(e, key) {
 
