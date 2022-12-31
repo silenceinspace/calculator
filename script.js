@@ -69,7 +69,7 @@ let operator;
 function operatorCanEqual() {
 
         if (display.textContent == '.') {
-            alert("This calculation is not possible xD");
+            alert("This calculation is not possible!");
         } else {
             num2 = +currentValue;
             operate(num1, num2, operator);
@@ -192,7 +192,7 @@ let num1;
 function saveFirstNumber() {
 
     if (display.textContent == '.') {
-        alert('This calculation is not possible xD');
+        alert('This calculation is not possible!');
     } else {
         if (isResult){
             num1 = +result;
@@ -216,8 +216,9 @@ let currentValue = '';
 buttons.forEach((item) => {
     item.addEventListener('click', (e) => {
 
-        if (display.textContent.split("").length >= 13 || display.textContent == '0') {
+        if (display.textContent.split("").length >= 13 || display.textContent == '00' || display.textContent == '.') {
             e.preventDefault(); //not allow any overflow on the display, fixed number of characters
+            alert("Typing only 0's is not possible!");
         } else {
             if (!operatorIsPressed && result !== 0) { //if there's some number on the screen (result), then keep adding to it to make one number;
 
@@ -290,7 +291,8 @@ function clearAll() {
 //keyboard support
 function showKeyboardValue(e, key) {
 
-    if (display.textContent.split("").length >= 13 || display.textContent == '0') {
+    if (display.textContent.split("").length >= 13 || display.textContent == '00' || display.textContent == '.') {
+        alert("Typing only 0's is not possible!");
         e.preventDefault();
     } else {
         if (!operatorIsPressed && result !== 0) {
@@ -304,32 +306,17 @@ function showKeyboardValue(e, key) {
 };
 
 window.addEventListener('keydown', (e) => {
-    //numbers
-    // create an object here??
-    if (e.key == '1') {
+    // input numbers by using keyboard
+    const numberKeyValues = [
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+    ];
+
+    if (numberKeyValues[e.key] == e.key) {    
         showKeyboardValue(e, e.key);
-    } else if (e.key == '2') {     
-        showKeyboardValue(e, e.key);
-    } else if (e.key == '3') {     
-        showKeyboardValue(e, e.key);
-    } else if (e.key == '4') {     
-        showKeyboardValue(e, e.key);
-    } else if (e.key == '5') {     
-        showKeyboardValue(e, e.key);
-    } else if (e.key == '6') {     
-        showKeyboardValue(e, e.key);
-    } else if (e.key == '7') {     
-        showKeyboardValue(e, e.key);
-    } else if (e.key == '8') {     
-        showKeyboardValue(e, e.key);
-    } else if (e.key == '9') {     
-        showKeyboardValue(e, e.key);
-    } else if (e.key == '0') {     
-        showKeyboardValue(e, e.key);
-    } 
-    
+    };
+
     //operators
-    else if (e.key == '.') {
+    if (e.key == '.') {
 
         let array = display.textContent.split("");
         let foundPeriod = array.find(period => period == '.');
