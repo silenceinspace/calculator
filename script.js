@@ -214,11 +214,10 @@ const showResults = document.querySelector("#show-results");
 // populate the display and store a value
 let currentValue = '';
 buttons.forEach((item) => {
-    item.addEventListener('click', (e) => {
+    item.addEventListener('pointerdown', (e) => {
 
         if (display.textContent.split("").length >= 13 || display.textContent == '00' || display.textContent == '.') {
             e.preventDefault(); //not allow any overflow on the display, fixed number of characters
-            alert("Typing only 0's is not possible!");
         } else {
             if (!operatorIsPressed && result !== 0) { //if there's some number on the screen (result), then keep adding to it to make one number;
 
@@ -254,7 +253,7 @@ function limitPeriod(e) {
 
 //backspace key
 const backspace = document.querySelector('.backspace');
-backspace.addEventListener('click', useBackspace);
+backspace.addEventListener('pointerdown', useBackspace);
 function useBackspace() {
     let deleteOneChar;
     if (isResult && !operatorIsPressed) {
@@ -264,10 +263,13 @@ function useBackspace() {
         display.textContent = result;
         showResults.textContent = result;
     } else {
+        
         deleteOneChar = currentValue.split(""); //split a value in the variable
         deleteOneChar.pop(); //remove the last kinda array item because of the split method 
         currentValue = deleteOneChar.join(""); //join array items into one string again;
         display.textContent = currentValue; //update currentValue's value both on the screen and for calculation
+        
+        /*slice() method would've been possible too*/
     };
 };
 
@@ -292,7 +294,6 @@ function clearAll() {
 function showKeyboardValue(e, key) {
 
     if (display.textContent.split("").length >= 13 || display.textContent == '00' || display.textContent == '.') {
-        alert("Typing only 0's is not possible!");
         e.preventDefault();
     } else {
         if (!operatorIsPressed && result !== 0) {
