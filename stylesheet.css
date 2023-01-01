@@ -14,19 +14,6 @@ body {
     justify-content: center;
 }
 
-#footer {
-    background-color: black;
-    width: 100%;
-    padding: 15px;
-    text-align: center;
-}
-
-a {
-    text-decoration: none;
-    color:white;
-    font-weight: bold;
-}
-
 a:hover {
     color:red;
     border: 2px solid yellow;
@@ -34,7 +21,6 @@ a:hover {
 }
 
 #calculator-case {
-    /* height: 515px; */
     height: 460px;
     width:  400px;
     margin: auto;
@@ -193,7 +179,28 @@ a:hover {
     height:50px;
 }
 
+#footer {
+    background-color: black;
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+}
 
-/* @media screen and (max-width: 500px) {
+a {
+    text-decoration: none;
+    color:white;
+    font-weight: bold;
+}
 
-} */
+a:hover {
+    color:red;
+    border: 2px solid yellow;
+    padding: 5px;
+}
+
+/* responsiveness for phones */
+@media screen and (max-width: 450px) {
+    #calculator-case {
+        width: 300px;
+    };
+}
