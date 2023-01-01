@@ -6,7 +6,7 @@
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: rgb(3, 54, 3);
+    background-color: rgba(138, 178, 194, 0.89);
     min-height: 100vh;
     display:flex;
     flex-direction: column;
@@ -40,6 +40,13 @@ a:hover {
     border: 10px solid purple;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 0 10px 7px black;
+    background: purple;
+}
+
+#calculator-case,
+.buttons {
+    border-radius: 1rem;
 }
 
 .display {
@@ -54,16 +61,20 @@ a:hover {
     background: white;
     font-size: 3rem;
     text-align: right;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
 }
 
 #show-results {
     width: auto; 
-    height:35px; 
+    height:30px; 
     background-color: white;
     margin:auto;
     font-size: 1.8rem;
     text-align:right;
     border-bottom:3px grey solid;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
 }
 
 .buttons {
