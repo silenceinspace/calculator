@@ -425,8 +425,14 @@ window.addEventListener('keydown', (e) => {
     };
 });
 
-/*
-
-- Optimize the code (use array methods instead of hardcoding, avoid repetition, place most things in order);  
-
-*/
+// light/dark mode
+const calculatorBorder = document.querySelector('#calculator-case');
+const footerText = document.querySelector('a');
+const footer = document.querySelector('#footer');
+const darkMode = document.querySelector('.mode');
+darkMode.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    footer.classList.toggle('footer-dark');
+    footerText.classList.toggle('link-dark');
+    calculatorBorder.classList.toggle('case-dark');
+});
