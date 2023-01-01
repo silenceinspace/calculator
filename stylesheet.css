@@ -52,6 +52,7 @@ a:hover {
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
     padding-right: 5px;
+    overflow:scroll;
 }
 
 #show-results {
@@ -65,6 +66,7 @@ a:hover {
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     padding-right: 5px;
+    overflow:scroll;
 }
 
 .buttons {
@@ -203,4 +205,4 @@ a:hover {
     #calculator-case {
         width: 300px;
     };
-}
+};
